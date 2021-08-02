@@ -1,0 +1,107 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block titulo %}
+  Anagrmas
+{% endblock titulo %}
+
+
+
+{% block buscador %}
+
+<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+method="POST">
+  {% csrf_token %}
+  <div class="input-group">
+    <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." name="buscar" value="{{ request.POST.buscar }}">
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="submit">
+        <i class="fas fa-search fa-sm"></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+{% endblock buscador %}
+
+
+
+{% block contenido %}
+
+
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Anagrmas</h1>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Tabla de palabras</h6>
+            </div>
+            <div class="card-body">
+            <a href="{% url 'libreria:autor' %}" class="btn btn-primary">Listar todos</a>
+        
+              <br><br>
+              {% if autores %}
+              <div class="table-responsive">
+                <table class="table table-bordered"  width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Palabra</th>
+                      <th>Anagrama</th>
+                      {% if user.usuario_administrador %}
+                       
+                      {% endif %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for autor in autores %}
+                    <tr>
+                      <td>{{ autor.id_autor }}</td>
+                      <td>{{ autor.nombres }}</td>
+                      <td>{{ autor.apellidos }}</td>
+
+                      {% if user.usuario_administrador %}
+                      <td>
+
+                  
+                      </td>
+                      {% endif %}
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {% else %}
+              <h1>NO HAY Anagramas REGISTRADOS</h1>
+            {% endif %}
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+<!-- Ventana modal -->
+<div class="modal fade" id="creacion" role="dialog"> 
+
+</div>
+
+<div class="modal fade" id="eliminacion" role="dialog"> 
+
+</div>
+
+<div class="modal fade" id="edicion" role="dialog"> 
+
+{% block extrajs %}
+  <script src= "{% static 'js/modals/modals.js' %}"></script>
+{% endblock extrajs %}
+</div>
+{% endblock contenido %}
